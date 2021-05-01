@@ -1,7 +1,7 @@
 # Dismissable Banner Element for Contao Open Source CMS
 
 This Bundle provides a dismissable banner content element. The dismiss of the banner is stored in the local storage of the browser.
-The banner will also be shown again after the configured expiry time (default: 30 day) or if it has been modified in the back end since the dismiss of the user.
+The banner will also be shown again after the configured expiry time (default: 30 days) or if it has been modified in the back end since the dismiss of the user.
 
 ## Installation
 
@@ -26,7 +26,11 @@ You can override the template [`ce_dismissable_banner.html5`](contao/templates/c
 
 ## Screenshots
 
+### Back end
+
 ![screenshot-backend](screenshot-backend.png)
+
+### Front end
 
 ![screenshot-banners](screenshot-banners.png)
 
