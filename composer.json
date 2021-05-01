@@ -1,0 +1,69 @@
+{
+  "name": "bwein-net/contao-dismissable-banner-element",
+  "description": "Dismissable Banner Element for Contao Open Source CMS",
+  "keywords": [
+    "contao",
+    "dismissable",
+    "dismissible",
+    "banner",
+    "overlay",
+    "popover",
+    "element",
+    "content",
+    "close",
+    "expiry",
+    "hide"
+  ],
+  "type": "contao-bundle",
+  "homepage": "https://github.com/bwein-net/contao-dismissable-banner-element",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "bwein.net",
+      "homepage": "https://bwein.net/",
+      "role": "Developer"
+    },
+    {
+      "name": "Ralf Baussenwein",
+      "homepage": "https://github.com/rabauss",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/bwein-net/contao-dismissable-banner-element/issues",
+    "source": "https://github.com/bwein-net/contao-dismissable-banner-element"
+  },
+  "funding": [
+    {
+      "type": "github",
+      "url": "https://github.com/sponsors/rabauss"
+    }
+  ],
+  "require": {
+    "php": "^7.2 || ^8.0",
+    "contao/core-bundle": "^4.9",
+    "symfony/config": "4.4.* || 5.2.*",
+    "symfony/dependency-injection": "4.4.* || 5.2.*",
+    "symfony/http-foundation": "4.4.* || 5.2.*",
+    "symfony/http-kernel": "4.4.* || 5.2.*",
+    "symfony/translation": "4.4.* || 5.2.*"
+  },
+  "require-dev": {
+    "contao/easy-coding-standard": "^3.0",
+    "contao/manager-plugin": "^2.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Bwein\\DismissableBannerElement\\": "src/"
+    }
+  },
+  "extra": {
+    "contao-manager-plugin": "Bwein\\DismissableBannerElement\\ContaoManager\\Plugin"
+  },
+  "scripts": {
+    "ecs": [
+      "vendor/bin/ecs check contao/ src/ --fix --ansi",
+      "vendor/bin/ecs check contao/ src/ --config ecs_template.php --fix --ansi"
+    ]
+  }
+}

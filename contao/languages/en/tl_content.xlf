@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file datatype="plaintext" original="tl_content.xlf" source-language="en" target-language="en">
+        <body>
+            <trans-unit id="tl_content.banner_legend">
+                <source>Banner</source>
+            </trans-unit>
+            <trans-unit id="tl_content.dismissableBannerAddLink.0">
+                <source>Add a hyperlink</source>
+            </trans-unit>
+            <trans-unit id="tl_content.dismissableBannerAddLink.1">
+                <source>Add hyperlink to the banner</source>
+            </trans-unit>
+            <trans-unit id="tl_content.dismissableBannerExpiryLimit.0">
+                <source>Limit the expiry time of the dismiss</source>
+            </trans-unit>
+            <trans-unit id="tl_content.dismissableBannerExpiryLimit.1">
+                <source>Limit or configure the expiry time of the dismiss of the banner (default: 30 days).</source>
+            </trans-unit>
+            <trans-unit id="tl_content.dismissableBannerExpiryTime.0">
+                <source>Expiry time of the dismiss (in seconds)</source>
+            </trans-unit>
+            <trans-unit id="tl_content.dismissableBannerExpiryTime.1">
+                <source>After this time (in seconds) the banner will be shown again!</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

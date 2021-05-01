@@ -1,0 +1,15 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        bind:
+            $assetsContext: '@contao.assets.assets_context'
+
+    _instanceof:
+        Contao\CoreBundle\Framework\FrameworkAwareInterface:
+            calls:
+                - [setFramework, ['@contao.framework']]
+
+    Bwein\DismissableBannerElement\:
+        resource: '../src/*'
+        exclude: '../src/{DependencyInjection}'

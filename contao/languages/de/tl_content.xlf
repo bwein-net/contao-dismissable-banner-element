@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file datatype="plaintext" original="tl_content.xlf" source-language="en" target-language="de">
+        <body>
+            <trans-unit id="tl_content.banner_legend">
+                <source>Banner</source>
+                <target>Banner</target>
+            </trans-unit>
+            <trans-unit id="tl_content.dismissableBannerAddLink.0">
+                <source>Add a hyperlink</source>
+                <target>Einen Hyperlink hinzufügen</target>
+            </trans-unit>
+            <trans-unit id="tl_content.dismissableBannerAddLink.1">
+                <source>Add hyperlink to the banner</source>
+                <target>Einen Hyperlink zum Banner hinzufügen</target>
+            </trans-unit>
+            <trans-unit id="tl_content.dismissableBannerExpiryLimit.0">
+                <source>Limit the expiry time of the dismiss</source>
+                <target>Die Ablaufzeit für die Ausblendung beschränken</target>
+            </trans-unit>
+            <trans-unit id="tl_content.dismissableBannerExpiryLimit.1">
+                <source>Limit or configure the expiry time of the dismiss of the banner (default: 30 days).</source>
+                <target>Die Ablaufzeit für die Ausblendung des Banners (Standard: 30 Tage) beschränken bzw. konfigurieren.</target>
+            </trans-unit>
+            <trans-unit id="tl_content.dismissableBannerExpiryTime.0">
+                <source>Expiry time of the dismiss (in seconds)</source>
+                <target>Ablaufzeit für die Ausblendung (in Sekunden)</target>
+            </trans-unit>
+            <trans-unit id="tl_content.dismissableBannerExpiryTime.1">
+                <source>After this time (in seconds) the banner will be shown again!</source>
+                <target>Nach dieser Zeit (in Sekunden) wird das Banner wieder angezeigt!</target>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>

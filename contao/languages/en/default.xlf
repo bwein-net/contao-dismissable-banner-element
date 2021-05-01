@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file datatype="plaintext" original="default.xlf" source-language="en" target-language="en">
+        <body>
+            <trans-unit id="CTE.banner.0">
+                <source>Banner</source>
+            </trans-unit>
+            <trans-unit id="CTE.dismissableBanner.0">
+                <source>Dismissable banner</source>
+            </trans-unit>
+            <trans-unit id="CTE.protectedRedirect.1">
+                <source>Banners that are dismissable with a close button.</source>
+            </trans-unit>
+        </body>
+    </file>
+</xliff>
