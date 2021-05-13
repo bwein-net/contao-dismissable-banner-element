@@ -41,6 +41,14 @@ class BweinDismissableBannerElementController extends AbstractContentElementCont
         $this->assetsContext = $assetsContext;
     }
 
+    public function __invoke(Request $request, ContentModel $model, string $section, array $classes = null): Response
+    {
+        $response = parent::__invoke($request, $model, $section, $classes);
+        $this->addSharedMaxAgeToResponse($response, $model);
+
+        return $response;
+    }
+
     protected function getResponse(Template $template, ContentModel $model, Request $request): ?Response
     {
         $this->framework->initialize();
