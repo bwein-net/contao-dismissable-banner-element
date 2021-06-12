@@ -45,8 +45,7 @@
     "symfony/config": "4.4.* || 5.2.*",
     "symfony/dependency-injection": "4.4.* || 5.2.*",
     "symfony/http-foundation": "4.4.* || 5.2.*",
-    "symfony/http-kernel": "4.4.* || 5.2.*",
-    "symfony/translation": "4.4.* || 5.2.*"
+    "symfony/http-kernel": "4.4.* || 5.2.*"
   },
   "require-dev": {
     "contao/easy-coding-standard": "^3.0",
