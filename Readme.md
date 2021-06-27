@@ -21,7 +21,12 @@ You can even set some css classes of the included styling for the banner: `succe
 
 ## Styling
 
-You can override the template [`ce_dismissable_banner.html5`](contao/templates/ce_dismissable_banner.html5) and remove the lines for the included stylesheets.
+You can override the template [`ce_dismissable_banner.html5`](contao/templates/ce_dismissable_banner.html5) and remove the lines for the included stylesheets or you can extend the template and add the following lines to your new template:
+```php
+// templates/ce_dismissable_banner_nocss.html5
+<?php $this->extend('ce_dismissable_banner'); ?>
+<?php $this->noCss = true; ?>
+```
 **Caution: If your remove the `data` attributes of the enclosing container or the Javascript asset, the extension will stop working!**
 
 ## Screenshots

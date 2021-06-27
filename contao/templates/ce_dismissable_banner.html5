@@ -1,5 +1,7 @@
 <?php
-$GLOBALS['TL_CSS'][] = 'bundles/bweindismissablebannerelement/css/frontend.min.css|static';
+if (!$this->noCss) {
+    $GLOBALS['TL_CSS'][] = 'bundles/bweindismissablebannerelement/css/frontend.min.css|static';
+}
 $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/bweindismissablebannerelement/js/frontend.min.js|static';
 ?>
 <div class="<?= $this->class ?> block"<?= $this->cssID ?><?php if ($this->style): ?>
@@ -8,26 +10,33 @@ $GLOBALS['TL_JAVASCRIPT'][] = 'bundles/bweindismissablebannerelement/js/frontend
      data-id="<?= $this->id ?>"
      data-expiry="<?= $this->dismissableBannerExpiryTime ?>"
      data-tstamp="<?= $this->tstamp ?>">
+    <?php $this->block('inside'); ?>
+    <div class="inside">
+        <?php $this->block('button'); ?>
+            <button type="button" class="close" title="<?= $this->trans('MSC.close', [], 'contao_default') ?>">
+                <span class="text">X</span>
+            </button>
+        <?php $this->endblock(); ?>
 
-    <?php $this->block('button'); ?>
-        <button type="button" class="close" title="<?= $this->trans('MSC.close', [], 'contao_default') ?>">
-            <span class="text">X</span>
-        </button>
-    <?php $this->endblock(); ?>
+        <?php $this->block('headline'); ?>
+            <?php if ($this->headline): ?>
+                <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
+            <?php endif; ?>
+        <?php $this->endblock(); ?>
 
-    <?php $this->block('headline'); ?>
-        <?php if ($this->headline): ?>
-            <<?= $this->hl ?>><?= $this->headline ?></<?= $this->hl ?>>
-        <?php endif; ?>
-    <?php $this->endblock(); ?>
+        <?php $this->block('banner-content'); ?>
+        <div class="banner-content">
+            <?php $this->block('text'); ?>
+                <?php $this->insert('ce_text', $this->textParams); ?>
+            <?php $this->endblock(); ?>
 
-    <?php $this->block('text'); ?>
-        <?php $this->insert('ce_text', $this->textParams); ?>
-    <?php $this->endblock(); ?>
-
-    <?php $this->block('hyperlink'); ?>
-        <?php if ($this->dismissableBannerAddLink && $this->hyperlinkParams): ?>
-            <?php $this->insert('ce_hyperlink', $this->hyperlinkParams); ?>
-        <?php endif; ?>
+            <?php $this->block('hyperlink'); ?>
+                <?php if ($this->dismissableBannerAddLink && $this->hyperlinkParams): ?>
+                    <?php $this->insert('ce_hyperlink', $this->hyperlinkParams); ?>
+                <?php endif; ?>
+            <?php $this->endblock(); ?>
+        </div>
+        <?php $this->endblock(); ?>
+    </div>
     <?php $this->endblock(); ?>
 </div>
