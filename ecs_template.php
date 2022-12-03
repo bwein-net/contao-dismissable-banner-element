@@ -2,15 +2,42 @@
 
 declare(strict_types=1);
 
-use Symfony\Component\DependencyInjection\Loader\Configurator\ContainerConfigurator;
+use PhpCsFixer\Fixer\ClassNotation\VisibilityRequiredFixer;
+use PhpCsFixer\Fixer\Comment\HeaderCommentFixer;
+use PhpCsFixer\Fixer\ControlStructure\NoAlternativeSyntaxFixer;
+use PhpCsFixer\Fixer\FunctionNotation\VoidReturnFixer;
+use PhpCsFixer\Fixer\PhpTag\BlankLineAfterOpeningTagFixer;
+use PhpCsFixer\Fixer\PhpTag\LinebreakAfterOpeningTagFixer;
+use PhpCsFixer\Fixer\Semicolon\SemicolonAfterInstructionFixer;
+use PhpCsFixer\Fixer\Strict\DeclareStrictTypesFixer;
+use PhpCsFixer\Fixer\Strict\StrictComparisonFixer;
+use PhpCsFixer\Fixer\Strict\StrictParamFixer;
+use SlevomatCodingStandard\Sniffs\Namespaces\ReferenceUsedNamesOnlySniff;
+use SlevomatCodingStandard\Sniffs\TypeHints\DisallowArrayTypeHintSyntaxSniff;
+use Symplify\EasyCodingStandard\Config\ECSConfig;
 use Symplify\EasyCodingStandard\ValueObject\Option;
 
-return static function (ContainerConfigurator $containerConfigurator): void {
-    $vendorDir = __DIR__ . '/vendor';
+return static function (ECSConfig $ecsConfig): void {
+    $ecsConfig->sets([__DIR__.'/tools/ecs/vendor/contao/easy-coding-standard/config/contao.php']);
 
-    if (!is_dir($vendorDir)) {
-        $vendorDir = __DIR__ . '/../../vendor';
-    }
+    $ecsConfig->skip([
+        BlankLineAfterOpeningTagFixer::class,
+        DeclareStrictTypesFixer::class,
+        HeaderCommentFixer::class,
+        LinebreakAfterOpeningTagFixer::class,
+        NoAlternativeSyntaxFixer::class,
+        ReferenceUsedNamesOnlySniff::class,
+        SemicolonAfterInstructionFixer::class,
+        StrictComparisonFixer::class,
+        StrictParamFixer::class,
+        VisibilityRequiredFixer::class,
+        VoidReturnFixer::class,
+        DisallowArrayTypeHintSyntaxSniff::class => ['*Model.php'],
+    ]);
 
-    $containerConfigurator->import($vendorDir . '/contao/easy-coding-standard/config/template.php');
+    $ecsConfig->parallel();
+
+    $parameters = $ecsConfig->parameters();
+    $parameters->set(Option::FILE_EXTENSIONS, ['html5']);
+    $parameters->set(Option::CACHE_DIRECTORY, sys_get_temp_dir().'/ecs_template_cache');
 };

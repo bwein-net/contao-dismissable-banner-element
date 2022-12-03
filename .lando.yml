@@ -1,0 +1,30 @@
+name: contao-dismissable-banner-element
+
+services:
+    appserver:
+        type: php:8.1
+        via: cli
+    node:
+        type: node:16
+        via: cli
+
+tooling:
+    composer:
+        service: appserver
+        cmd: composer
+
+    ecs-init:
+        service: appserver
+        cmd: composer install -d tools/ecs
+
+    ecs:
+        service: appserver
+        cmd: composer ecs
+
+    npm:
+        service: node
+        description: Run npm commands
+
+    gulp:
+        service: node
+        description: Run gulp commands
