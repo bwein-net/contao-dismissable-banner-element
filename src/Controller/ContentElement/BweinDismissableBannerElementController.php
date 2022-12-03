@@ -18,6 +18,7 @@ use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\ServiceAnnotation\ContentElement;
+use Contao\CoreBundle\Twig\FragmentTemplate;
 use Contao\StringUtil;
 use Contao\Template;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
@@ -50,7 +51,10 @@ class BweinDismissableBannerElementController extends AbstractContentElementCont
         return $response;
     }
 
-    protected function getResponse(Template $template, ContentModel $model, Request $request): ?Response
+    /**
+     * @param Template|FragmentTemplate $template
+     */
+    protected function getResponse($template, ContentModel $model, Request $request): Response
     {
         $this->framework->initialize();
 
@@ -64,7 +68,10 @@ class BweinDismissableBannerElementController extends AbstractContentElementCont
         return $template->getResponse();
     }
 
-    protected function addTextParamsToTemplate(Template $template, ContentModel $model, Request $request): void
+    /**
+     * @param Template|FragmentTemplate $template
+     */
+    protected function addTextParamsToTemplate($template, ContentModel $model, Request $request): void
     {
         $params = ['class' => 'ce_text'];
 
@@ -78,7 +85,10 @@ class BweinDismissableBannerElementController extends AbstractContentElementCont
         $template->textParams = $params;
     }
 
-    protected function addHyperlinkParamsToTemplate(Template $template, ContentModel $model, Request $request): void
+    /**
+     * @param Template|FragmentTemplate $template
+     */
+    protected function addHyperlinkParamsToTemplate($template, ContentModel $model, Request $request): void
     {
         if (!$model->dismissableBannerAddLink) {
             return;
