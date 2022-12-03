@@ -55,6 +55,12 @@
       "Bwein\\DismissableBannerElement\\": "src/"
     }
   },
+  "config": {
+    "allow-plugins": {
+      "contao-components/installer": true,
+      "contao/manager-plugin": true
+    }
+  },
   "extra": {
     "contao-manager-plugin": "Bwein\\DismissableBannerElement\\ContaoManager\\Plugin"
   },
