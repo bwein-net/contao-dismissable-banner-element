@@ -8,7 +8,8 @@
  * inspired by  @see: https://medium.com/front-end-weekly/creating-a-dismissible-banner-component-ad02493b1cc2
  */
 
-.ce_dismissableBanner {
+.ce_dismissableBanner,
+.ce_dismissable_banner {
   display: flex;
   flex-direction: column;
   background: #fff;
