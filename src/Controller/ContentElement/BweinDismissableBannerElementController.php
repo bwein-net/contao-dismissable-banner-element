@@ -16,6 +16,7 @@ use Contao\ContentModel;
 use Contao\CoreBundle\Asset\ContaoContext;
 use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
 use Contao\CoreBundle\Framework\ContaoFramework;
+use Contao\CoreBundle\Image\Studio\Studio;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\ServiceAnnotation\ContentElement;
 use Contao\CoreBundle\Twig\FragmentTemplate;
@@ -34,13 +35,15 @@ class BweinDismissableBannerElementController extends AbstractContentElementCont
     private ScopeMatcher $scopeMatcher;
     private ContaoContext $assetsContext;
     private ParameterBagInterface $params;
+    private Studio $studio;
 
-    public function __construct(ContaoFramework $framework, ScopeMatcher $scopeMatcher, ContaoContext $assetsContext, ParameterBagInterface $params)
+    public function __construct(ContaoFramework $framework, ScopeMatcher $scopeMatcher, ContaoContext $assetsContext, ParameterBagInterface $params, Studio $studio)
     {
         $this->framework = $framework;
         $this->scopeMatcher = $scopeMatcher;
         $this->assetsContext = $assetsContext;
         $this->params = $params;
+        $this->studio = $studio;
     }
 
     public function __invoke(Request $request, ContentModel $model, string $section, array $classes = null): Response
@@ -74,7 +77,8 @@ class BweinDismissableBannerElementController extends AbstractContentElementCont
      */
     protected function addTextParamsToTemplate($template, ContentModel $model, Request $request): void
     {
-        $params = ['class' => 'ce_text'];
+        $params = new \stdClass();
+        $params->class = 'ce_text';
 
         // Add the static files URL to images
         if ($staticUrl = $this->assetsContext->getStaticUrl()) {
@@ -82,8 +86,24 @@ class BweinDismissableBannerElementController extends AbstractContentElementCont
             $model->text = str_replace(' src="'.$path, ' src="'.$staticUrl.$path, (string) $model->text);
         }
 
-        $params['text'] = StringUtil::encodeEmail((string) $model->text);
-        $template->textParams = $params;
+        $params->text = StringUtil::encodeEmail((string) $model->text);
+        $params->addImage = false;
+        $params->addBefore = false;
+
+        $figure = !$model->addImage ? null : $this->studio
+            ->createFigureBuilder()
+            ->fromUuid($model->singleSRC ?: '')
+            ->setSize($model->size)
+            ->setMetadata($model->getOverwriteMetadata())
+            ->enableLightbox((bool) $model->fullsize)
+            ->buildIfResourceExists()
+        ;
+
+        if (null !== $figure) {
+            $figure->applyLegacyTemplateData($params, $model->imagemargin, $model->floating);
+        }
+
+        $template->textParams = get_object_vars($params);
     }
 
     /**

@@ -13,6 +13,7 @@ declare(strict_types=1);
 $GLOBALS['TL_DCA']['tl_content']['palettes']['dismissableBanner'] = '
     {type_legend},type,headline;
     {text_legend},text;
+    {image_legend},addImage;
     {link_legend},dismissableBannerAddLink;
     {banner_legend},dismissableBannerExpiryLimit;
     {template_legend:hide},customTpl;
