@@ -64,6 +64,7 @@ class BweinDismissableBannerElementController extends AbstractContentElementCont
 
         $this->addTextParamsToTemplate($template, $model, $request);
         $this->addHyperlinkParamsToTemplate($template, $model, $request);
+        $template->contentModel = $model;
 
         return $template->getResponse();
     }
