@@ -15,10 +15,10 @@ namespace Bwein\DismissableBannerElement\Controller\ContentElement;
 use Contao\ContentModel;
 use Contao\CoreBundle\Asset\ContaoContext;
 use Contao\CoreBundle\Controller\ContentElement\AbstractContentElementController;
+use Contao\CoreBundle\DependencyInjection\Attribute\AsContentElement;
 use Contao\CoreBundle\Framework\ContaoFramework;
 use Contao\CoreBundle\Image\Studio\Studio;
 use Contao\CoreBundle\Routing\ScopeMatcher;
-use Contao\CoreBundle\ServiceAnnotation\ContentElement;
 use Contao\CoreBundle\Twig\FragmentTemplate;
 use Contao\StringUtil;
 use Contao\Template;
@@ -26,27 +26,19 @@ use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-/**
- * @ContentElement("dismissableBanner", category="banner", template="ce_dismissable_banner")
- */
+#[AsContentElement('dismissableBanner', category: 'banner', template: 'ce_dismissable_banner')]
 class BweinDismissableBannerElementController extends AbstractContentElementController
 {
-    private ContaoFramework $framework;
-    private ScopeMatcher $scopeMatcher;
-    private ContaoContext $assetsContext;
-    private ParameterBagInterface $params;
-    private Studio $studio;
-
-    public function __construct(ContaoFramework $framework, ScopeMatcher $scopeMatcher, ContaoContext $assetsContext, ParameterBagInterface $params, Studio $studio)
-    {
-        $this->framework = $framework;
-        $this->scopeMatcher = $scopeMatcher;
-        $this->assetsContext = $assetsContext;
-        $this->params = $params;
-        $this->studio = $studio;
+    public function __construct(
+        private readonly ContaoFramework $framework,
+        private readonly ScopeMatcher $scopeMatcher,
+        private readonly ContaoContext $assetsContext,
+        private readonly ParameterBagInterface $params,
+        private readonly Studio $studio,
+    ) {
     }
 
-    public function __invoke(Request $request, ContentModel $model, string $section, array $classes = null): Response
+    public function __invoke(Request $request, ContentModel $model, string $section, array|null $classes = null): Response
     {
         $response = parent::__invoke($request, $model, $section, $classes);
         $this->addSharedMaxAgeToResponse($response, $model);
@@ -117,7 +109,7 @@ class BweinDismissableBannerElementController extends AbstractContentElementCont
 
         $params = ['class' => 'ce_hyperlink'];
 
-        if (0 === strncmp($model->url, 'mailto:', 7)) {
+        if (str_starts_with((string) $model->url, 'mailto:')) {
             $model->url = StringUtil::encodeEmail($model->url);
         } else {
             $model->url = StringUtil::ampersand($model->url);

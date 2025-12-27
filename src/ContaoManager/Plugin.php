@@ -20,9 +20,6 @@ use Contao\ManagerPlugin\Bundle\Parser\ParserInterface;
 
 class Plugin implements BundlePluginInterface
 {
-    /**
-     * {@inheritdoc}
-     */
     public function getBundles(ParserInterface $parser): array
     {
         return [
