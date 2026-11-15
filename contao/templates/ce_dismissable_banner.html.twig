@@ -1,0 +1,52 @@
+{% use '@Contao/component/_stylesheet.html.twig' %}
+
+{% if not noCss|default %}
+    {% add 'bwein_dismissable_banner_css' to stylesheets %}
+        {% with {file: asset('bundles/bweindismissablebannerelement/css/frontend.min.css')} %}{{ block('stylesheet_component') }}{% endwith %}
+    {% endadd %}
+{% endif %}
+
+{% add 'bwein_dismissable_banner_js' to body %}
+    <script src="{{ asset('bundles/bweindismissablebannerelement/js/frontend.min.js') }}"{{ attrs().setIfExists('nonce', csp_nonce('script-src')) }}></script>
+{% endadd %}
+
+{% set wrapper_attributes = attrs(cssID|default)
+    .addClass([class, 'block'])
+    .addStyle(style|default)
+    .set('data-component', 'bweinDismissableBanner-item')
+    .set('data-id', id)
+    .set('data-expiry', dismissableBannerExpiryTime)
+    .set('data-tstamp', tstamp)
+%}
+
+<div{{ wrapper_attributes }}>
+    {% block inside %}
+        <div class="inside">
+            {% block button %}
+                <button type="button" class="close" title="{{ 'MSC.close'|trans([], 'contao_default') }}">
+                    <span class="text">X</span>
+                </button>
+            {% endblock %}
+
+            {% block headline %}
+                {% if headline|default %}
+                    <{{ hl }}>{{ headline }}</{{ hl }}>
+                {% endif %}
+            {% endblock %}
+
+            {% block banner_content %}
+                <div class="banner-content">
+                    {% block text %}
+                        {{ include('@Contao/ce_text.html.twig', textParams, with_context = false) }}
+                    {% endblock %}
+
+                    {% block hyperlink %}
+                        {% if dismissableBannerAddLink and hyperlinkParams|default %}
+                            {{ include('@Contao/ce_hyperlink.html.twig', hyperlinkParams, with_context = false) }}
+                        {% endif %}
+                    {% endblock %}
+                </div>
+            {% endblock %}
+        </div>
+    {% endblock %}
+</div>

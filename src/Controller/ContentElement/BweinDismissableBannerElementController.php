@@ -21,7 +21,6 @@ use Contao\CoreBundle\Image\Studio\Studio;
 use Contao\CoreBundle\Routing\ScopeMatcher;
 use Contao\CoreBundle\Twig\FragmentTemplate;
 use Contao\StringUtil;
-use Contao\Template;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,10 +45,7 @@ class BweinDismissableBannerElementController extends AbstractContentElementCont
         return $response;
     }
 
-    /**
-     * @param Template|FragmentTemplate $template
-     */
-    protected function getResponse($template, ContentModel $model, Request $request): Response
+    protected function getResponse(FragmentTemplate $template, ContentModel $model, Request $request): Response
     {
         $this->framework->initialize();
 
@@ -57,7 +53,7 @@ class BweinDismissableBannerElementController extends AbstractContentElementCont
             $template->dismissableBannerExpiryTime = 30 * 24 * 60 * 60;
         }
 
-        $this->addTextParamsToTemplate($template, $model, $request);
+        $this->addTextParamsToTemplate($template, $model);
         $this->addHyperlinkParamsToTemplate($template, $model, $request);
         $template->contentModel = $model;
 
@@ -65,20 +61,22 @@ class BweinDismissableBannerElementController extends AbstractContentElementCont
     }
 
     /**
-     * @param Template|FragmentTemplate $template
+     * Parameters for the "ce_text" template, which is included without context.
      */
-    protected function addTextParamsToTemplate($template, ContentModel $model, Request $request): void
+    protected function addTextParamsToTemplate(FragmentTemplate $template, ContentModel $model): void
     {
-        $params = new \stdClass();
-        $params->class = 'ce_text';
+        $text = (string) $model->text;
 
         // Add the static files URL to images
         if ($staticUrl = $this->assetsContext->getStaticUrl()) {
             $path = $this->params->get('contao.upload_path').'/';
-            $model->text = str_replace(' src="'.$path, ' src="'.$staticUrl.$path, (string) $model->text);
+            $text = str_replace(' src="'.$path, ' src="'.$staticUrl.$path, $text);
         }
 
-        $params->text = StringUtil::encodeEmail((string) $model->text);
+        $params = new \stdClass();
+        $params->class = 'ce_text';
+        $params->cssID = '';
+        $params->text = StringUtil::encodeEmail($text);
         $params->addImage = false;
         $params->addBefore = false;
 
@@ -99,48 +97,36 @@ class BweinDismissableBannerElementController extends AbstractContentElementCont
     }
 
     /**
-     * @param Template|FragmentTemplate $template
+     * Parameters for the "ce_hyperlink" template, which is included without context.
+     *
+     * The values are escaped in the Twig template, so they must not be encoded here.
      */
-    protected function addHyperlinkParamsToTemplate($template, ContentModel $model, Request $request): void
+    protected function addHyperlinkParamsToTemplate(FragmentTemplate $template, ContentModel $model, Request $request): void
     {
         if (!$model->dismissableBannerAddLink) {
             return;
         }
 
-        $params = ['class' => 'ce_hyperlink'];
+        $url = (string) $model->url;
 
-        if (str_starts_with((string) $model->url, 'mailto:')) {
-            $model->url = StringUtil::encodeEmail($model->url);
-        } else {
-            $model->url = StringUtil::ampersand($model->url);
+        if (str_starts_with($url, 'mailto:')) {
+            $url = StringUtil::encodeEmail($url);
         }
 
-        if ($model->rel) {
-            $params['attribute'] = ' data-lightbox="'.$model->rel.'"';
-        }
-
-        if (!$model->linkTitle) {
-            $model->linkTitle = $model->url;
-        }
-
-        $params['href'] = $model->url;
-        $params['link'] = $model->linkTitle;
-        $params['target'] = '';
-        $params['rel'] = '';
-
-        if ($model->titleText) {
-            $params['linkTitle'] = StringUtil::specialchars($model->titleText);
-        }
-
-        // Override the link target
-        if ($model->target) {
-            $params['target'] = ' target="_blank"';
-            $params['rel'] = ' rel="noreferrer noopener"';
-        }
+        $params = [
+            'class' => 'ce_hyperlink',
+            'cssID' => '',
+            'useImage' => false,
+            'href' => $url,
+            'link' => $model->linkTitle ?: $url,
+            'linkTitle' => $model->titleText ?: null,
+            'attribute' => $model->rel ? ['data-lightbox' => $model->rel] : [],
+            'target' => $model->target ? ['target' => '_blank'] : [],
+            'rel' => $model->target ? ['rel' => 'noreferrer noopener'] : [],
+        ];
 
         if ($this->scopeMatcher->isBackendRequest($request)) {
-            $params['title'] = '';
-            $params['linkTitle'] = '';
+            $params['linkTitle'] = null;
         }
 
         $template->hyperlinkParams = $params;
